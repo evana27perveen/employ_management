@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_filters %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/project.css' %}">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <title>Add department</title>
+{% endblock %}
+{% block body %}
+    <div class="container" style="text-align: center">
+        <button style="margin-bottom: 10px" class="btn btn-secondary btn-lg active" onclick="dpt()"><h4>Add new Department</h4></button>
+        <div class="wrapper" id="dpt_form" style="display: none">
+            <form action="" method="post" enctype="multipart/form-data" class="form-sign_in">
+                <button style="float: right" class="btn btn-outline-danger" onclick="cls_dpt()"><h4>×</h4></button>
+                {% csrf_token %}
+                <h3 class="form-sign_in-heading">Add Department : </h3>
+                <hr class="color_graph">
+                <br>
+                <fieldset class="form-group">
+                    {{ form|crispy }}
+                    <input type="submit" class="btn btn-outline-primary" value="Submit">
+                </fieldset>
+            </form>
+        </div>
+</div>
+
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">serial</th>
+                <th scope="col">Dpt_name</th>
+                <th scope="col">Location</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for dpt in dpts %}
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ dpt.dpt_name }}</td>
+                <td>{{ dpt.dpt_location }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+
+
+    <script>
+        function dpt() {
+            document.getElementById("dpt_form").style.display = "block";
+        }
+
+        function cls_dpt() {
+            document.getElementById("dpt_form").style.display = "none";
+        }
+    </script>
+{% endblock %}

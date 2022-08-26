@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block head %}
+    <title>verify projects</title>
+{% endblock %}
+{% block body %}
+    <div class="row no-gutters">
+        {% if query_result %}
+            <div class="col-12 col-sm-12 col-md-12" style="text-align: center">
+                {% for qr in query_result %}
+                    <div class="card">
+                        <h5 class="card-header">{{ qr.project_name }}
+                            {% if qr.id in v_manage %}
+                                <a style="color: green">(Done) </a>
+                            {% else %}
+                                <a style="color: lightseagreen">(Pending) </a>
+                            {% endif %}
+                        </h5>
+                        <div class="card-body">
+                            <h5 class="card-title">Deadline : {{ qr.deadline }}</h5>
+                            <p class="card-text">Project members : {{ qr.assigned_to }}</p>
+                            <a href="{% url 'detail' my_pk=qr.pk %}" class="btn btn-outline-info">Details</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="col-12 col-sm-12 col-md-12" style="text-align: center">
+                {% for project in projects %}
+                    <!---- comparing ---->
+                    {#               {% ifequal profile 'Not Found' %}{% endifequal %} #}
+                    <!---- End Comparing ---->
+                    <div class="card">
+                        <h5 class="card-header">{{ project.project_name }}
+                            {% if project.id in v_manage %}
+                                <a style="color: green">(Done) </a>
+                            {% else %}
+                                <a style="color: lightseagreen">(Pending) </a>
+                            {% endif %}
+                        </h5>
+                        <div class="card-body">
+                            <h5 class="card-title">Deadline : {{ project.deadline }}</h5>
+                            <p class="card-text">Project members : {{ project.assigned_to }}</p>
+                            <a href="{% url 'detail' my_pk=project.pk %}" class="btn btn-outline-info">Details</a>
+                        </div>
+                    </div>
+
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

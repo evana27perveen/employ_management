@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_filters %}
+{% block head %}
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link rel="stylesheet" href="{% static 'css/project_detail.css' %}">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <title>Project</title>
+{% endblock %}
+{% block body %}
+<div class="wrapper fadeInDown">
+    <div id="formContent">
+        <!-- Tabs Titles -->
+
+        <!-- Icon -->
+        <div class="fadeIn first">
+            <h1>{{ project_expand.project_name }}</h1>
+        </div>
+
+        <!-- Login Form -->
+        <h4><small>Project Department:</small> {{ project_expand.project_dpt }}</h4>
+        <h4><small>Project Description:</small> {{ project_expand.work_description|linebreaks }}</h4>
+        <h4><small>Assigned by:</small> {{ project_expand.assigned_by }}</h4>
+        <br><br><br><br>
+        <h3><u>Project Members :</u></h3><br>
+        {% for m_name in m_names %}
+            <h4>* {{ m_name.emp_id }} : {{ m_name.emp_name }}</h4>
+            <p>Contact : {{ m_name.emp_contact }}</p>
+
+
+        {% endfor %}
+        <!-- footer -->
+        <div id="formFooter">
+        {% if project_expand.id not in v_manage %}
+            {% if a_manager.mgr_name == project_expand.assigned_by %}
+                <form action="" method="post" name="Login_Form" class="form-sign_in">
+                    {% csrf_token %}
+                    <h3 class="form-sign_in-heading">Project Status: </h3>
+                    <br>
+                    <fieldset class="form-group">
+                        {{ form }}
+                        <input type="submit" class="btn btn-outline-primary" value="Submit">
+                    </fieldset>
+                </form>
+            {% endif %}
+        {% else %}
+                <h3 style="text-align: center; color: green">---Done---</h3>
+        {% endif %}
+
+        </div>
+
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+{% endblock %}

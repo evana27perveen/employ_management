@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_filters %}
+{% load custom_filters %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/project.css' %}">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <title>Employee Recruitment</title>
+{% endblock %}
+{% block body %}
+    <div class="container" style="text-align: center">
+        <button style="margin-bottom: 10px" class="btn btn-secondary btn-lg active" onclick="dpt()"><h4>Add new
+            Employee</h4></button>
+        <div class="wrapper" id="dpt_form" style="display: none">
+            <form action="" method="post" enctype="multipart/form-data" class="form-sign_in">
+                <button style="float: right" class="btn btn-outline-danger" onclick="cls_dpt()"><h4>×</h4></button>
+                {% csrf_token %}
+                <h3 class="form-sign_in-heading">Recruit an Employee : </h3>
+                <hr class="color_graph">
+                <br>
+                <fieldset class="form-group">
+                    {{ form|crispy }}
+                    <input type="submit" class="btn btn-outline-primary" value="Submit">
+                </fieldset>
+            </form>
+        </div>
+    </div>
+
+
+    <div style="margin-left: 5px; margin-right: 5px;">
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                {#                <th scope="col">serial</th>#}
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Picture</th>
+                <th scope="col">Department</th>
+                <th scope="col">Phone</th>
+                {#                <th scope="col">Date_of_Birth</th>#}
+                <th scope="col">Gender</th>
+                {#                <th scope="col">emp_nid</th>#}
+                <th scope="col">Address</th>
+                {#                <th scope="col">e_resume</th>#}
+                <th scope="col">Position</th>
+                <th scope="col">Wage</th>
+                <th scope="col">Assigned Leaves</th>
+                <th scope="col">Team Head</th>
+                <th scope="col">Joined at</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for employee in employees %}
+                <tr>
+                    {#                    <th scope="row">{{ forloop.counter }}</th>#}
+                    <td>{{ employee.emp_id }}</td>
+                    <td>{{ employee.emp_name.first_name }} {{ employee.emp_name.last_name }}</td>
+                    <td><a href="#" type="button" data-toggle="modal"
+                           data-target="#exampleModal">Picture</a></td>
+                    <td>{{ employee.emp_dpt }}</td>
+                    <td title="{{ employee.emp_contact }}">{{ employee.emp_contact|phone_range_filter }}</td>
+                    {#                    <td>{{ employee.Date_of_Birth }}</td>#}
+                    <td>{{ employee.gender }}</td>
+                    {#                    <td>{{ employee.emp_nid }}</td>#}
+                    <td title="{{ employee.emp_address }}">{{ employee.emp_address|range_filter }}</td>
+                    {#                    <td><a href="{{ employee.e_resume.url }}">E_Resume</a></td>#}
+                    <td>{{ employee.emp_designation }}</td>
+                    <td>{{ employee.emp_salary }}</td>
+                    <td>{{ employee.emp_assigned_leaves }}</td>
+                    <td>{{ employee.manager }}</td>
+                    <td>{{ employee.joining_date }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <!----- Picture Showcase ------->
+{#        <!-- Modal -->#}
+{#        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"#}
+{#             aria-labelledby="exampleModalLabel"#}
+{#             aria-hidden="true">#}
+{#            <div class="modal-dialog" role="document">#}
+{#                <div class="modal-content">#}
+{#                    <div class="modal-header">#}
+{#                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>#}
+{#                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">#}
+{#                            <span aria-hidden="true">&times;</span>#}
+{#                        </button>#}
+{#                    </div>#}
+{#                    <div class="modal-body">#}
+{#                        <img src="{{ employee.emp_picture.url }}" alt="">#}
+{#                    </div>#}
+{#                    <div class="modal-footer">#}
+{#                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>#}
+{#                        <button type="button" class="btn btn-primary">Save changes</button>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+
+    </div>
+
+    <script>
+        function dpt() {
+            document.getElementById("dpt_form").style.display = "block";
+        }
+
+        function cls_dpt() {
+            document.getElementById("dpt_form").style.display = "none";
+        }
+    </script>
+{% endblock %}

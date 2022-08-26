@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block body %}
+        <div class="row no-gutters">
+            {% if query_result %}
+                <div class="col-12 col-sm-6 col-md-8">
+                    {% for qr in query_result %}
+                        <div class="card">
+                            <h5 class="card-header">{{ qr.project_name }}
+                                {% if qr.id in v_manage %}
+                                    <a style="color: green">(Done) </a>
+                                {% else %}
+                                    <a style="color: lightseagreen">(Pending) </a>
+                                {% endif %}
+                            </h5>
+                            <div class="card-body">
+                                <h5 class="card-title">Deadline : {{ qr.deadline }}</h5>
+                                <p class="card-text">Project members : {{ qr.assigned_to }}</p>
+                                <a href="{% url 'detail' my_pk=qr.pk %}" class="btn btn-outline-info">Details</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="col-12 col-sm-6 col-md-8">
+                    {% for project in projects %}
+                        <div class="card">
+                            <h5 class="card-header">{{ project.project_name }}
+                                {% if project.id in v_manage %}
+                                    <a style="color: green">(Done) </a>
+                                {% else %}
+                                    <a style="color: lightseagreen">(Pending) </a>
+                                {% endif %}
+                            </h5>
+                            <div class="card-body">
+                                <h5 class="card-title">Deadline : {{ project.deadline }}</h5>
+                                <p class="card-text">Project members : {{ project.assigned_to }}</p>
+                                <a href="{% url 'detail' my_pk=project.pk %}" class="btn btn-outline-info">Details</a>
+                            </div>
+                        </div>
+
+                    {% endfor %}
+                </div>
+            {% endif %}
+            <div class="col-6 col-md-4">
+                <div class="card text-white bg-dark mb-4" style="max-width: 23rem;">
+                    <div class="card-header bg-transparent border-info">
+                        <img class="card-img-top" src="{{ profile.emp_picture.url }}" alt="Card image cap">
+                    </div>
+                    <div class="card-body text-white">
+                        <h5 class="card-title"><small><u>Employee</u> :</small> {{ profile.emp_name }}</h5><br>
+                        <p><small><u>Professional Information</u>:::</small></p>
+                        <p class="card-text"><small><u>Full name</u>
+                            :</small> {{ user.first_name }} {{ user.last_name }}
+                        </p>
+                        <p class="card-text"><small><u>Id</u> :</small> {{ profile.emp_id }}</p>
+                        <p class="card-text"><small><u>Department</u> :</small> {{ profile.emp_dpt }}</p>
+                        <p class="card-text"><small><u>Designation</u> :</small> {{ profile.emp_designation }}</p>
+                        <p class="card-text"><small><u>Salary</u> :</small> {{ profile.emp_salary }}</p>
+                        <p class="card-text"><small><u>Works under</u> :</small> {{ profile.manager }}</p>
+                        <p class="card-text"><small><u>Joining Date</u> :</small> {{ profile.joining_date }}</p><br>
+                        <p><small><u>Personal Information</u>:::</small></p>
+                        <p class="card-text"><small><u>Contact Number</u> :</small> {{ profile.emp_contact }}</p>
+                        <p class="card-text"><small><u>Email</u> :</small> {{ user.email }}</p>
+                        <p class="card-text"><small><u>Gender</u> :</small> {{ profile.gender }}</p>
+                        <p class="card-text"><small><u>Date Of Birth</u> :</small> {{ profile.Date_of_Birth }}</p>
+                        <p class="card-text"><small><u>NID</u> :</small> {{ profile.emp_nid }}</p>
+                        <p class="card-text"><small><u>Address</u> :</small> {{ profile.emp_address }}</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-success">
+                        <a href="{% url 'logout' %}" type="button" class="btn btn-light"><i
+                                class="fa fa-power-off" aria-hidden="true"></i>Sign Out</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+{% endblock %}

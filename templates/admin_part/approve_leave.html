@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block head %}
+    <title>leave approval</title>
+{% endblock %}
+{% block body %}
+    <div class="row no-gutters">
+        <div class="col-12 col-sm-12 col-md-12" style="text-align: center">
+            {% for leave in leaves %}
+                <!---- comparing ---->
+                {#               {% ifequal profile 'Not Found' %}{% endifequal %} #}
+                <!---- End Comparing ---->
+                <div class="card" style="margin-top: 5px; margin-bottom: 5px;"><h5 class="card-header">
+                <span style="float: left">{{ forloop.counter }}
+                    {% if leave.id in approved_leaves %}
+                        <a style="color: green">(Granted) </a>
+                    {% elif leave.id in rejected_leaves %}
+                        <a style="color: darkred">(Rejected) </a>
+                    {% else %}
+                        <a style="color: lightseagreen">(Pending) </a>
+                    {% endif %}
+                </span>
+                    <span style="margin-left: 20px; margin-right: 20px">Name : {{ leave.leave_for.first_name }} {{ leave.leave_for.last_name }}</span>
+                    <span style="margin-left: 20px; margin-right: 20px">Applied on: {{ leave.apply_date }}</span>
+                    <a href="{% url 'leave_detail' my_pk=leave.pk %}" class="btn btn-outline-info" style="float: right">Details</a>
+                </h5>
+                </div>
+
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
